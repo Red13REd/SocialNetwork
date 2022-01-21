@@ -1,0 +1,41 @@
+.main {
+    display: grid;
+    grid-template-columns: 5fr 15fr;
+}
+
+.dialogs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.dialogsiItems {
+    padding: 10px;
+}
+
+.dialogsiItems .active {
+    color: gold;
+}
+
+.dialog {
+    justify-self: flex-start;
+
+}
+
+.messages {
+    padding: 10px;
+}
+
+.messages .message {
+
+}
+
+.img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-top: 10px;
+}
+
+.navLink {
+
+}
