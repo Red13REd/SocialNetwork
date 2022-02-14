@@ -3,22 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {addPostState, state, StateType, updateNewPostText} from "./redax/state";
+import {store, StoreType} from "./redax/state";
 
 
-export const rerenderEntireTree = (props: StateType) => {
+export const rerenderEntireTree = (props: StoreType) => {
     ReactDOM.render(
         <React.StrictMode>
-            <App State={props}
-                 addPostState={addPostState}
-                 updateNewPostText={updateNewPostText}
+            <App State={store.getState()}
+                 addPostState={store.addPostState.bind(store)}
+                 updateNewPostText={store.updateNewPostText.bind(store)}
             />
         </React.StrictMode>,
         document.getElementById('root')
     );
 }
 
-rerenderEntireTree(state)
+rerenderEntireTree(store)
 
 
 
