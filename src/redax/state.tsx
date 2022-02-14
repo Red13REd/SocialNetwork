@@ -1,4 +1,5 @@
-import {rerenderEntireTree} from "../render";
+import {rerenderEntireTree} from "../index";
+
 
 
 
@@ -24,16 +25,18 @@ export type MessagesPageType = {
 
 export type ProfileType = {
     postsData: Array<PostDataType>
+    newPostText: string
 }
 
 export type StateType = {
     profile: ProfileType
     messagesPage: MessagesPageType
 
+
 }
 
 
-export let state:StateType = {
+export let state: StateType = {
     profile: {
         postsData: [
             {id: 1, message: "Hi, how are you", likeCounts: 15},
@@ -41,7 +44,7 @@ export let state:StateType = {
             {id: 3, message: "bla bla", likeCounts: 1},
             {id: 4, message: "Da da", likeCounts: 5},
         ],
-
+        newPostText: "",
     },
     messagesPage: {
         messagesData: [
@@ -62,11 +65,16 @@ export let state:StateType = {
 }
 
 
-
-export const addPoststate = (text:string) => {
-    debugger
-    let newPost = {id: 5, message:text, likeCounts: 0}
+export const addPostState = () => {
+    let newPost: PostDataType = {id: new Date().getTime(), message: state.profile.newPostText, likeCounts: 0}
     state.profile.postsData.push(newPost)
+    state.profile.newPostText = ""
     rerenderEntireTree(state)
 };
+
+export const updateNewPostText = (newText: string) => {
+    state.profile.newPostText = newText
+    rerenderEntireTree(state)
+};
+
 

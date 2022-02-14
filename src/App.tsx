@@ -10,11 +10,12 @@ import React from "react";
 
 export type appPostType = {
     State: StateType
-    addPoststate: (text: string) => void
+    addPostState: () => void
+    updateNewPostText: (newText:string) => void
 }
 
 
-const App: React.FC<appPostType> = ({State, addPoststate}) => {
+const App: React.FC<appPostType> = ({State, addPostState, updateNewPostText}) => {
 
     return (
         <BrowserRouter>
@@ -24,7 +25,11 @@ const App: React.FC<appPostType> = ({State, addPoststate}) => {
                 <div className={classes.appWrapperContent}>
                     <Routes>
                         <Route path="/dialogs/*" element={<Dialogs State={State.messagesPage}/>}/>
-                        <Route path="/profile" element={<Profile State={State.profile} addPoststate={addPoststate} />}/>
+                        <Route path="/profile" element={<Profile
+                            State={State.profile}
+                            addPostState={addPostState}
+                            updateNewPostText={updateNewPostText}
+                        />}/>
                         {/*<Route path="/news" element={<News/>}/>
                     <Route path="/music" element={<Music/>}/>
                     <Route path="/settings" element={<Settings/>}/>*/}

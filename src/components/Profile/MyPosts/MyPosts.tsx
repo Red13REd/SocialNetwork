@@ -1,26 +1,25 @@
 import classes from './MyPosts.module.css';
 import Post from "./Post/Post";
-import React, {RefObject} from "react";
-import {PostDataType} from "../../../redax/state";
+import React, {ChangeEvent} from "react";
+import {ProfileType} from "../../../redax/state";
 
 type MyPostsPropsType = {
-    postsData: Array<PostDataType>
-    addPoststate: (text: string) => void
+    State: ProfileType
+    addPostState: () => void
+    updateNewPostText: (newText: string) => void
 }
 
-const MyPosts: React.FC<MyPostsPropsType> = (postsData, addPoststate) => {
+const MyPosts: React.FC<MyPostsPropsType> = ({State, addPostState, updateNewPostText}) => {
 
-    let postsElements = postsData.postsData.map(p => <Post id={p.id} message={p.message} likeCounts={p.likeCounts}/>)
-
-    let newPostElement = React.createRef<HTMLTextAreaElement>()
+    let postsElements = State.postsData.map(p => <Post key={p.id} id={p.id} message={p.message} likeCounts={p.likeCounts}/>)
 
     const addPost = () => {
-
-        let text = newPostElement.current!.value
-         addPoststate(text)
-        newPostElement.current!.value = ''
+        addPostState()
     }
 
+    let onPostChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
+        updateNewPostText(e.currentTarget.value)
+    }
 
     return (
         <div className={classes.content}>
@@ -30,7 +29,7 @@ const MyPosts: React.FC<MyPostsPropsType> = (postsData, addPoststate) => {
             </div>
             <div>
                 <div>
-                    <textarea ref={newPostElement}></textarea>
+                    <textarea onChange={(e)=>onPostChange(e)} value={State.newPostText}/>
                 </div>
                 <div>
                     <button onClick={addPost}>Add post</button>

@@ -5,12 +5,10 @@ import {Message} from "./Message/Message";
 import {MessagesPageType} from "../../redax/state";
 
 
-
 type DialogsPropsType = {
-    State:MessagesPageType
+    State: MessagesPageType
 
 }
-
 
 
 export const Dialogs: React.FC<DialogsPropsType> = ({State}) => {
@@ -18,10 +16,10 @@ export const Dialogs: React.FC<DialogsPropsType> = ({State}) => {
     let dialogsElement = State.dialogsData.map(d => <DialogItem name={d.name} id={d.id}/>);
     let messagesElement = State.messagesData.map(m => <Message message={m.message} id={m.id}/>)
 
-    const newMassageElement:any = React.createRef()
+    const newMassageElement: any = React.createRef()
 
-    const addMassage = (newMassageElement:any)=> {
-      let text = newMassageElement.current.value
+    const addMassage = (newMassageElement: any) => {
+        let text = newMassageElement.current.value
         alert(text)
     }
 
@@ -34,8 +32,8 @@ export const Dialogs: React.FC<DialogsPropsType> = ({State}) => {
                 {messagesElement}
             </div>
             <div>
-            <textarea ref={newMassageElement}></textarea>
-            <button onClick={addMassage}>Send massage</button>
+                <textarea ref={newMassageElement}/>
+                <button onClick={addMassage}>Send massage</button>
             </div>
         </div>
     )
