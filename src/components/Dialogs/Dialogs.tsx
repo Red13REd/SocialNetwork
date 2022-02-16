@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import classes from "./Dialogs.module.css";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
@@ -21,10 +21,8 @@ export const Dialogs: React.FC<DialogsPropsType> = ({State,dispatch}) => {
     let dialogsElement = State.dialogsData.map(d => <DialogItem name={d.name} id={d.id}/>);
     let messagesElement = State.messagesData.map(m => <Message message={m.message} id={m.id}/>)
 
-    const newMassageElement: any = React.createRef()
-
-    const updateNewMessage = () => {
-        let text = newMassageElement.current.value
+    const updateNewMessage = (e:ChangeEvent<HTMLTextAreaElement>) => {
+        let text = e.currentTarget.value
         const newVar = updateNewMessagesTextActionCreator(text)
        dispatch(newVar)
     }
@@ -42,7 +40,7 @@ export const Dialogs: React.FC<DialogsPropsType> = ({State,dispatch}) => {
                 {messagesElement}
             </div>
             <div>
-                <textarea  onChange={updateNewMessage} ref={newMassageElement} value={State.newMessageText}/>
+                <textarea  onChange={updateNewMessage}  value={State.newMessageText}/>
                 <button onClick={addMassage}>Send massage</button>
             </div>
         </div>
