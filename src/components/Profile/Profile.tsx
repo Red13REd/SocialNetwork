@@ -1,25 +1,21 @@
 import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./MyPosts/Post/ProfileInfo/ProfileInfo";
 import React from "react";
-import {ProfileType} from "../../redax/state";
+import {ActionsType, ProfileType} from "../../redax/state";
 
 type ProfilePropsType = {
     State: ProfileType
-    addPostState: () => void
-    updateNewPostText: (newText: string) => void
-
+    dispatch: (action: ActionsType) => void
 }
 
-const Profile: React.FC<ProfilePropsType> = ({State, addPostState, updateNewPostText}) => {
+const Profile: React.FC<ProfilePropsType> = ({State, dispatch}) => {
 
     return (
         <div>
             <ProfileInfo/>
             <MyPosts
                 State={State}
-                addPostState={addPostState}
-                updateNewPostText={updateNewPostText}
-
+                dispatch={dispatch}
             />
         </div>
     )

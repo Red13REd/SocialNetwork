@@ -10,8 +10,8 @@ export const rerenderEntireTree = (props: StoreType) => {
     ReactDOM.render(
         <React.StrictMode>
             <App State={store.getState()}
-                 addPostState={store.addPostState.bind(store)}
-                 updateNewPostText={store.updateNewPostText.bind(store)}
+                 dispatch={store.dispatch.bind(store)}
+
             />
         </React.StrictMode>,
         document.getElementById('root')

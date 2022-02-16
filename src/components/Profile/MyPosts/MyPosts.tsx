@@ -1,24 +1,25 @@
 import classes from './MyPosts.module.css';
 import Post from "./Post/Post";
 import React, {ChangeEvent} from "react";
-import {ProfileType} from "../../../redax/state";
+import {ActionsType, addPostActionCreator, ProfileType, updateNewPostTextActionCreator} from "../../../redax/state";
 
 type MyPostsPropsType = {
     State: ProfileType
-    addPostState: () => void
-    updateNewPostText: (newText: string) => void
+    dispatch: (action: ActionsType) => void
+
 }
 
-const MyPosts: React.FC<MyPostsPropsType> = ({State, addPostState, updateNewPostText}) => {
+const MyPosts: React.FC<MyPostsPropsType> = ({State, dispatch}) => {
 
     let postsElements = State.postsData.map(p => <Post key={p.id} id={p.id} message={p.message} likeCounts={p.likeCounts}/>)
 
     const addPost = () => {
-        addPostState()
+        dispatch(addPostActionCreator())
     }
 
     let onPostChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
-        updateNewPostText(e.currentTarget.value)
+        let newText = e.currentTarget.value
+        dispatch(updateNewPostTextActionCreator(newText))
     }
 
     return (
