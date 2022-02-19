@@ -1,4 +1,6 @@
 import {rerenderEntireTree} from "../index";
+import {addPostActionCreator, profileReducer, updateNewPostTextActionCreator} from "./profileReducer";
+import {addMessageActionCreator, dialogsReducer, updateNewMessagesTextActionCreator} from "./dialogsReducer";
 
 
 export type DialogDataType = {
@@ -78,51 +80,14 @@ export let store: StoreType = {
     getState() {
         return this._state
     },
+
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
-            let newPost: PostDataType = {
-                id: new Date().getTime(),
-                message: this._state.profile.newPostText,
-                likeCounts: 0
-            }
-            this._state.profile.postsData.push(newPost)
-            this._state.profile.newPostText = ""
-            rerenderEntireTree(store)
 
-        } else if (action.type === 'UPDATED-NEW-POST-TEXT') {
-            this._state.profile.newPostText = action.newText
-            rerenderEntireTree(store)
-
-        } else if (action.type === "ADD-MESSAGE") {
-            let newMessage = {id: 1, message: this._state.messagesPage.newMessageText}
-            this._state.messagesPage.messagesData.push(newMessage)
-            this._state.messagesPage.newMessageText = ""
-            rerenderEntireTree(store)
-
-        } else if (action.type === "UPDATE-NEW-MESSAGE-TEXT") {
-            this._state.messagesPage.newMessageText = action.newMessage
-            rerenderEntireTree(store)
-
-        }
+        this._state.profile = profileReducer(this._state.profile, action)
+        this._state.messagesPage = dialogsReducer(this._state.messagesPage, action)
+        rerenderEntireTree()
     }
 }
-
-
-export const addPostActionCreator = () => ({type: 'ADD-POST'} as const)
-
-export const updateNewPostTextActionCreator = (text: string) => ({
-    type: 'UPDATED-NEW-POST-TEXT',
-    newText: text
-} as const)
-
-export const addMessageActionCreator = () => ({type: "ADD-MESSAGE"} as const)
-
-export const updateNewMessagesTextActionCreator = (text: string) => ({
-    type: "UPDATE-NEW-MESSAGE-TEXT",
-    newMessage: text
-} as const)
-
-
 
 
 
