@@ -10,10 +10,7 @@ import {store} from "./redax/state";
 export const rerenderEntireTree = () => {
     ReactDOM.render(
         <React.StrictMode>
-            <App State={store.getState()}
-                 dispatch={store.dispatch.bind(store)}
-
-            />
+            <App store={store}/>
         </React.StrictMode>,
         document.getElementById('root')
     );

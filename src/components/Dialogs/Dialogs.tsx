@@ -2,29 +2,28 @@ import React, {ChangeEvent} from "react";
 import classes from "./Dialogs.module.css";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {ActionsType, MessagesPageType,} from "../../redax/state";
-import {addMessageActionCreator, updateNewMessagesTextActionCreator} from "../../redax/dialogsReducer";
+import {MessagesPageType,} from "../../redax/state";
 
 
 type DialogsPropsType = {
-    State: MessagesPageType
-    dispatch: (action: ActionsType) => void
+    state: MessagesPageType
+    addMassageContainer: () => void
+    updateNewMessageContainer: (text: string) => void
 }
 
 
-export const Dialogs: React.FC<DialogsPropsType> = ({State, dispatch}) => {
+export const Dialogs: React.FC<DialogsPropsType> = ({state, updateNewMessageContainer, addMassageContainer}) => {
 
-    let dialogsElement = State.dialogsData.map(d => <DialogItem name={d.name} id={d.id}/>);
-    let messagesElement = State.messagesData.map(m => <Message message={m.message} id={m.id}/>)
+    let dialogsElement = state.dialogsData.map(d => <DialogItem name={d.name} id={d.id}/>);
+    let messagesElement = state.messagesData.map(m => <Message message={m.message} id={m.id}/>)
 
     const updateNewMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let text = e.currentTarget.value
-        const newVar = updateNewMessagesTextActionCreator(text)
-        dispatch(newVar)
+        updateNewMessageContainer(text)
     }
 
     const addMassage = () => {
-        dispatch(addMessageActionCreator())
+        addMassageContainer()
     }
 
     return (
@@ -35,7 +34,7 @@ export const Dialogs: React.FC<DialogsPropsType> = ({State, dispatch}) => {
             <div className={classes.messages}>
                 {messagesElement}
                 <div>
-                    <textarea onChange={updateNewMessage} value={State.newMessageText}/>
+                    <textarea onChange={updateNewMessage} value={state.newMessageText}/>
                     <div>
                         <button onClick={addMassage}>Send massage</button>
                     </div>

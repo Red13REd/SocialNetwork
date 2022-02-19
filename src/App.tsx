@@ -4,18 +4,17 @@ import Nav from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import {Dialogs} from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {ActionsType, StateType} from "./redax/state";
+import {StoreType} from "./redax/state";
 import React from "react";
+import { DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 
 export type appPostType = {
-    State: StateType
-    dispatch: (action: ActionsType) => void
-
+    store: StoreType
 }
 
 
-const App: React.FC<appPostType> = ({State, dispatch}) => {
+const App: React.FC<appPostType> = ({store}) => {
 
     return (
         <BrowserRouter>
@@ -24,12 +23,8 @@ const App: React.FC<appPostType> = ({State, dispatch}) => {
                 <Nav/>
                 <div className={classes.appWrapperContent}>
                     <Routes>
-                        <Route path="/dialogs/*" element={<Dialogs State={State.messagesPage}
-                                                                   dispatch={dispatch}/>}/>
-                        <Route path="/profile" element={<Profile
-                            State={State.profile}
-                            dispatch={dispatch}
-                        />}/>
+                        <Route path="/dialogs/*" element={<DialogsContainer store={store}/>}/>
+                        <Route path="/profile" element={<Profile store={store}/>}/>
                         {/*<Route path="/news" element={<News/>}/>
                     <Route path="/music" element={<Music/>}/>
                     <Route path="/settings" element={<Settings/>}/>*/}
