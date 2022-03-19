@@ -2,28 +2,24 @@ import React, {ChangeEvent} from "react";
 import classes from "./Dialogs.module.css";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {MessagesPageType,} from "../../redax/state";
+import {DialodsType} from "./DialogsContainer";
 
 
-type DialogsPropsType = {
-    state: MessagesPageType
-    addMassageContainer: () => void
-    updateNewMessageContainer: (text: string) => void
-}
 
 
-export const Dialogs: React.FC<DialogsPropsType> = ({state, updateNewMessageContainer, addMassageContainer}) => {
+
+export const Dialogs: React.FC<DialodsType> = ({state, updateNewMessage, addMassage,}) => {
 
     let dialogsElement = state.dialogsData.map(d => <DialogItem name={d.name} id={d.id}/>);
     let messagesElement = state.messagesData.map(m => <Message message={m.message} id={m.id}/>)
 
-    const updateNewMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const updateNewMessageDilogs = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let text = e.currentTarget.value
-        updateNewMessageContainer(text)
+        updateNewMessage(text)
     }
 
-    const addMassage = () => {
-        addMassageContainer()
+    const addMassageDilogs = () => {
+        addMassage()
     }
 
     return (
@@ -34,9 +30,9 @@ export const Dialogs: React.FC<DialogsPropsType> = ({state, updateNewMessageCont
             <div className={classes.messages}>
                 {messagesElement}
                 <div>
-                    <textarea onChange={updateNewMessage} value={state.newMessageText}/>
+                    <textarea onChange={updateNewMessageDilogs} value={state.newMessageText}/>
                     <div>
-                        <button onClick={addMassage}>Send massage</button>
+                        <button onClick={addMassageDilogs}>Send massage</button>
                     </div>
                 </div>
             </div>

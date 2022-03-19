@@ -3,16 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {store} from "./redax/state";
+import { store} from "./redax/redaxStore";
+import {Provider} from "react-redux";
 
 
 
 export const rerenderEntireTree = () => {
     ReactDOM.render(
-        <React.StrictMode>
-            <App store={store}/>
-        </React.StrictMode>,
-        document.getElementById('root')
+
+            <Provider store={store}>
+            <App/>
+            </Provider>, document.getElementById('root')
     );
 }
 

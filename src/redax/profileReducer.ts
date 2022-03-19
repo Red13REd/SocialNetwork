@@ -12,7 +12,7 @@ let initialState:ProfileType = {
 
 
 
-export const profileReducer = (state = initialState, action: ActionsType) => {
+export const profileReducer = (state = initialState, action: ActionsType):ProfileType => {
 
     switch (action.type) {
         case 'ADD-POST':

@@ -1,26 +1,23 @@
 import classes from './MyPosts.module.css';
 import Post from "./Post/Post";
 import React, {ChangeEvent} from "react";
-import {ProfileType, } from "../../../redax/state";
+import {MessagesPageType, ProfileType,} from "../../../redax/state";
+import {MyPostsType} from "./MyPostsСontainer";
 
-type MyPostsPropsType = {
-    state: ProfileType
-    addPostContainer: () => void
-    onPostChangeContainer: (newText:string) => void
-}
 
-const MyPosts: React.FC<MyPostsPropsType> = ({state,addPostContainer,onPostChangeContainer}) => {
+
+const MyPosts: React.FC<MyPostsType> = ({state,addPost,updateNewPostText}) => {
 
     let postsElements = state.postsData.map(p => <Post key={p.id} id={p.id} message={p.message}
                                                        likeCounts={p.likeCounts}/>)
 
-    const addPost = () => {
-        addPostContainer()
+    const addPostPosts = () => {
+        addPost()
     }
 
-    let onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    let onPostChangePosts = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let newText = e.currentTarget.value
-       onPostChangeContainer(newText)
+        updateNewPostText(newText)
     }
 
     return (
@@ -31,10 +28,10 @@ const MyPosts: React.FC<MyPostsPropsType> = ({state,addPostContainer,onPostChang
             </div>
             <div>
                 <div>
-                    <textarea onChange={(e) => onPostChange(e)} value={state.newPostText}/>
+                    <textarea onChange={(e) => onPostChangePosts(e)} value={state.newPostText}/>
                 </div>
                 <div>
-                    <button onClick={addPost}>Add post</button>
+                    <button onClick={addPostPosts}>Add post</button>
                     <button>Remove</button>
                 </div>
             </div>
