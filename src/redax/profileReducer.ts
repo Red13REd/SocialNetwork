@@ -1,4 +1,4 @@
-import {ActionsType, PostDataType, ProfileType} from "./state";
+import {ActionsType, ProfileType} from "./state";
 
 let initialState:ProfileType = {
     postsData: [
@@ -16,17 +16,9 @@ export const profileReducer = (state = initialState, action: ActionsType):Profil
 
     switch (action.type) {
         case 'ADD-POST':
-            let newPost: PostDataType = {
-                id: new Date().getTime(),
-                message: state.newPostText,
-                likeCounts: 0
-            }
-            state.postsData.push(newPost)
-            state.newPostText = ""
-            return state
+            return {...state,postsData: [...state.postsData,{id: 5, message: state.newPostText, likeCounts: 1}],newPostText: ""}
         case 'UPDATED-NEW-POST-TEXT':
-            state.newPostText = action.newText
-            return state
+            return {...state,newPostText: action.newText}
         default:
             return state
     }
