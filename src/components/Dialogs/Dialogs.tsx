@@ -5,13 +5,10 @@ import {Message} from "./Message/Message";
 import {DialodsType} from "./DialogsContainer";
 
 
-
-
-
 export const Dialogs: React.FC<DialodsType> = ({state, updateNewMessage, addMassage,}) => {
 
-    let dialogsElement = state.dialogsData.map(d => <DialogItem name={d.name} id={d.id}/>);
-    let messagesElement = state.messagesData.map(m => <Message message={m.message} id={m.id}/>)
+    let dialogsElement = state.dialogsData.map(d => <DialogItem name={d.name} key={d.id} id={d.id}/>);
+    let messagesElement = state.messagesData.map(m => <Message message={m.message} key={m.id} id={m.id}/>)
 
     const updateNewMessageDilogs = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let text = e.currentTarget.value
