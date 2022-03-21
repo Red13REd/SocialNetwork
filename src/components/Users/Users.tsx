@@ -1,35 +1,16 @@
 import styles from "./users.module.css"
 import {UsersType} from "./UsersContainer";
 import React from "react";
+import axios from "axios";
+// @ts-ignore
+import userPhoto from "../../assets/img/userAvatar.png"
 
 export const Users:React.FC<UsersType> = ({state,setUsers,toggleFollow}) => {
     if(state.users.length === 0){
-        setUsers([
-            {
-                id: "1",
-                photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKng-qF7B4zdMk1SmWUnhf0RAcIlRbNbzLLnVG-FkZXlFWvg84Vci32xXDD9gJ8qWrB8s&usqp=CAU",
-                followed: false,
-                fullName: "Dmitry",
-                status: "I'm a boss",
-                location: {city: "Minsk", country: "Belarus"}
-            },
-            {
-                id: "2",
-                photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKng-qF7B4zdMk1SmWUnhf0RAcIlRbNbzLLnVG-FkZXlFWvg84Vci32xXDD9gJ8qWrB8s&usqp=CAU",
-                followed: true,
-                fullName: "Sasha",
-                status: "I'm a boss too",
-                location: {city: "Moscow", country: "Russia"}
-            },
-            {
-                id: "3",
-                photoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKng-qF7B4zdMk1SmWUnhf0RAcIlRbNbzLLnVG-FkZXlFWvg84Vci32xXDD9gJ8qWrB8s&usqp=CAU",
-                followed: false,
-                fullName: "Andrew",
-                status: "I'm also a boss",
-                location: {city: "Kiev", country: "Ukraine"}
-            },
-        ],)
+
+        axios.get("https://social-network.samuraijs.com/api/1.0/users").then(response =>{
+            setUsers(response.data.items)
+        })
     }
 
     return (
@@ -40,8 +21,8 @@ export const Users:React.FC<UsersType> = ({state,setUsers,toggleFollow}) => {
                         <div key={m.id}>
                             <span>
                                 <div>
-                                    <img className={styles.photo}
-                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKng-qF7B4zdMk1SmWUnhf0RAcIlRbNbzLLnVG-FkZXlFWvg84Vci32xXDD9gJ8qWrB8s&usqp=CAU"/>
+                                     <img className={styles.photo}
+                                          src={m.photos.small !== null? m.photos.small : userPhoto}/>
                                 </div>
                                 <div>
                                     <button
@@ -51,12 +32,12 @@ export const Users:React.FC<UsersType> = ({state,setUsers,toggleFollow}) => {
 
                             <span>
                                 <span>
-                                    <div>{m.fullName}</div>
+                                    <div>{m.name}</div>
                                     <div>{m.status}</div>
                                 </span>
                                 <span>
-                                    <div>{m.location.country}</div>
-                                    <div>{m.location.city}</div>
+                                    <div>{"m.location.country"}</div>
+                                    <div>{"m.location.city"}</div>
                                 </span>
                             </span>
                         </div>
