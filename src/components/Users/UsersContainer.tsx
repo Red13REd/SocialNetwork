@@ -1,8 +1,8 @@
 import {connect} from "react-redux";
-import {Users} from "./Users";
 import {initialStateUsersType, setUsers, toggleFollow, usersType} from "../../redax/usersReducer";
 import {Dispatch} from "redux";
 import {AppStateType} from "../../redax/redaxStore";
+import Users from "./Users";
 
 type mapStateToProps = {
     state:initialStateUsersType
