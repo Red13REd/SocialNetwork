@@ -71,14 +71,10 @@ let mapStateToProps = (state: AppStateType) => {
     }
 }
 
-let mapDispatchToProps = (dispatch: Dispatch): mapDispatchToPropsType => {
-    return {
-        toggleFollow: (id: string) => dispatch(toggleFollow(id)),
-        setUsers: (users: Array<usersType>) => dispatch(setUsers(users)),
-        setCurrentPage: (number) => dispatch(setCurrentPage(number)),
-        setTotalUsersCount: (number) => dispatch(setTotalUsersCount(number)),
-        toggleIsFetching: (isFetching) => dispatch(toggleIsFetching(isFetching)),
-    }
-}
-
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersApi);
+export const UsersContainer = connect(mapStateToProps, {
+    toggleFollow,
+    setUsers,
+    setCurrentPage,
+    setTotalUsersCount,
+    toggleIsFetching,
+})(UsersApi);
