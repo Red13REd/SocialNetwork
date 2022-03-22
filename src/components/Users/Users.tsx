@@ -1,51 +1,43 @@
-import React from "react";
-import styles from "./users.module.css"
-import axios from "axios";
+import React from 'react';
+import styles from "./users.module.css";
 // @ts-ignore
 import userPhoto from "../../assets/img/userAvatar.png";
-import {UsersType} from "./UsersContainer";
+import {usersType} from "../../redax/usersReducer";
 
+export type UsersType = {
+    users: Array<usersType>
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    onPageChanged: (number: number) => void
+    toggleFollow: (number: string) => void
+}
 
-class Users extends React.Component<UsersType, UsersType> {
+export const Users = (props: UsersType) => {
 
-    componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.state.currentPage}&count=${this.props.state.pageSize}`).then(response => {
-            this.props.setUsers(response.data.items)
-            this.props.setTotalUsersCount(response.data.totalCount)
-        })
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+
+    let pages = [];
+
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i);
     }
 
-    onPageChanged = (pageNumber: number) => {
-        this.props.setCurrentPage(pageNumber)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.state.pageSize}`)
-            .then(response => {
-                this.props.setUsers(response.data.items)
-            })
-    }
 
-    render() {
-        let pagesCount = Math.ceil(this.props.state.totalUsersCount / this.props.state.pageSize)
-
-        let pages = [];
-
-        for (let i = 1; i <= pagesCount; i++) {
-            pages.push(i);
-        }
-
-        return (
+    return (
+        <div>
             <div>
-                <div>
-                    {pages.map(m => {
-                        return (
-                            <span onClick={() => this.onPageChanged(m)}
-                                  className={this.props.state.currentPage === m ? styles.selectedPage : ""}>{m}</span>
-                        )
-                    })}
-                </div>
-                {
-                    this.props.state.users.map(m => {
-                        return (
-                            <div key={m.id}>
+                {pages.map(m => {
+                    return (
+                        <span onClick={() => props.onPageChanged(m)}
+                              className={props.currentPage === m ? styles.selectedPage : ""}>{m}</span>
+                    )
+                })}
+            </div>
+            {
+                props.users.map(m => {
+                    return (
+                        <div key={m.id}>
                             <span>
                                 <div>
                                     <img className={styles.photo}
@@ -53,11 +45,11 @@ class Users extends React.Component<UsersType, UsersType> {
                                 </div>
                                 <div>
                                     <button
-                                        onClick={() => this.props.toggleFollow(m.id)}>{m.followed ? "Follow" : "Unfollow"}</button>
+                                        onClick={() => props.toggleFollow(m.id)}>{m.followed ? "Follow" : "Unfollow"}</button>
                                 </div>
                             </span>
 
-                                <span>
+                            <span>
                                 <span>
                                     <div>{m.name}</div>
                                     <div>{m.status}</div>
@@ -67,14 +59,10 @@ class Users extends React.Component<UsersType, UsersType> {
                                     <div>{"m.location.city"}</div>
                                 </span>
                             </span>
-                            </div>
-                        )
-                    })
-                }
-            </div>
-        );
-    }
-}
-
-
-export default Users;
+                        </div>
+                    )
+                })
+            }
+        </div>
+    );
+};

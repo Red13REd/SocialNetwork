@@ -35,7 +35,6 @@ export type ActionsUsersType =
     | ReturnType<typeof setTotalUsersCount>
 
 export const usersReducer = (state: initialStateUsersType = initialState, action: ActionsUsersType): initialStateUsersType => {
-    debugger
     switch (action.type) {
         case 'TOGGLE_FOLLOW':
             return {...state, users: state.users.map(m => m.id === action.id ? {...m, followed: !m.followed} : m)}
