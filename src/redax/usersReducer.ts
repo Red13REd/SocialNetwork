@@ -1,5 +1,3 @@
-export type locationType = { city: string, country: string }
-
 export type PhotoType = {
     small: string
     large: string
@@ -19,6 +17,7 @@ export type initialStateUsersType = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
+    isFetching: boolean
 }
 
 let initialState: initialStateUsersType = {
@@ -26,6 +25,7 @@ let initialState: initialStateUsersType = {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
+    isFetching: false,
 }
 
 export type ActionsUsersType =
@@ -33,17 +33,20 @@ export type ActionsUsersType =
     | ReturnType<typeof setUsers>
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUsersCount>
+    | ReturnType<typeof toggleIsFetching>
 
 export const usersReducer = (state: initialStateUsersType = initialState, action: ActionsUsersType): initialStateUsersType => {
     switch (action.type) {
         case 'TOGGLE_FOLLOW':
             return {...state, users: state.users.map(m => m.id === action.id ? {...m, followed: !m.followed} : m)}
         case 'SET-USERS':
-            return {...state, users:  action.users}
+            return {...state, users: action.users}
         case "SET-CURRENT-PAGE":
             return {...state, users: [...state.users], currentPage: action.currentPage}
         case "SET-TOTAL-USERS-COUNT":
             return {...state, totalUsersCount: action.totalUsersCount}
+        case "TOGGLE-IS-FETCHING":
+            return {...state, isFetching: action.isFetching}
         default:
             return state
     }
@@ -62,3 +65,4 @@ export const setTotalUsersCount = (totalUsersCount: number) => ({
     totalUsersCount,
 } as const)
 
+export const toggleIsFetching = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching} as const)
