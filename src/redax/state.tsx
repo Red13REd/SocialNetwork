@@ -83,9 +83,9 @@ export let store: StoreType = {
 
     dispatch(action) {
 
-        this._state.profile = profileReducer(this._state.profile, action)
+       /* this._state.profile = profileReducer(this._state.profile, action)
         this._state.messagesPage = dialogsReducer(this._state.messagesPage, action)
-        rerenderEntireTree()
+        rerenderEntireTree()*/
     }
 }
 

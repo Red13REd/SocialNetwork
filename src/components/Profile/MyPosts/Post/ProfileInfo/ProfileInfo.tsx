@@ -1,8 +1,24 @@
 import classes from "./ProfileInfo.module.css";
 import React from "react";
+import {profileType} from "../../../../../redax/profileReducer";
+import {Preloader} from "../../../../common/preloader/preloader";
+// @ts-ignore
+import no from "../../../../../assets/img/no.jpg"
+// @ts-ignore
+import yes from "../../../../../assets/img/download.jfif"
 
+export type ProfileInfoType = {
+    profile: profileType
+}
 
-const ProfileInfo = () => {
+const ProfileInfo: React.FC<ProfileInfoType> = ({profile}) => {
+
+    if (!profile) {
+        return <Preloader/>
+    }
+
+    let profileContacts = Object.values(profile.contacts)
+
     return (
         <div>
             <div>
@@ -12,7 +28,18 @@ const ProfileInfo = () => {
             </div>
 
             <div className={classes.descriptionBlock}>
-                ava + description
+                <div>{profile.fullName}</div>
+                <img src={profile.photos.large}/>
+            </div>
+            <div>
+                {profileContacts.map(m => {
+                    return <div>{m}</div>
+                })}
+            </div>
+            <div>
+                <div>Поиск работы</div>
+                {profile.lookingForAJob ? <img src={yes}/> : <img src={no}/>}
+                <div>{profile.lookingForAJobDescription}</div>
             </div>
         </div>
 

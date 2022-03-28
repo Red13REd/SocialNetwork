@@ -1,10 +1,9 @@
 import React from "react";
 import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redax/profileReducer";
 import MyPosts from "./MyPosts";
-import {StoreContext} from "../../../redax/StoreContext";
 import {connect} from "react-redux";
 import {AppStateType} from "../../../redax/redaxStore";
-import {MessagesPageType, ProfileType} from "../../../redax/state";
+import { ProfileType} from "../../../redax/state";
 import {Dispatch} from "redux";
 
 type mapStateToProps = {
