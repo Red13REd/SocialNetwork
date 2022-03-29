@@ -7,6 +7,7 @@ import React from "react";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
+import HeaderComponent from "./components/Header/headerContainer";
 
 
 export type appPostType = {}
@@ -17,7 +18,7 @@ const App: React.FC<appPostType> = ({}) => {
     return (
         <BrowserRouter>
             <div className={classes.appWrapper}>
-                <Header/>
+                <HeaderComponent/>
                 <Nav/>
                 <div className={classes.appWrapperContent}>
                     <Routes>

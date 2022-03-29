@@ -4,8 +4,16 @@
 }
 
 
-
 .img {
     width: 100px;
 
+}
+
+.loginBlock {
+    float: right;
+
+}
+
+.loginBlock a {
+    color: white;
 }
