@@ -3,6 +3,7 @@ import styles from "./users.module.css";
 // @ts-ignore
 import userPhoto from "../../assets/img/userAvatar.png";
 import {usersType} from "../../redax/usersReducer";
+import {NavLink} from "react-router-dom";
 
 export type UsersType = {
     users: Array<usersType>
@@ -40,8 +41,10 @@ export const Users = (props: UsersType) => {
                         <div key={m.id}>
                             <span>
                                 <div>
-                                    <img className={styles.photo}
-                                         src={m.photos.small !== null ? m.photos.small : userPhoto}/>
+                                     <NavLink to={"/profile/" + m.id}>
+                                         <img className={styles.photo}
+                                              src={m.photos.small !== null ? m.photos.small : userPhoto}/>
+                                     </NavLink>
                                 </div>
                                 <div>
                                     <button

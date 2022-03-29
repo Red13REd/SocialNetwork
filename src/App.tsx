@@ -22,7 +22,7 @@ const App: React.FC<appPostType> = ({}) => {
                 <div className={classes.appWrapperContent}>
                     <Routes>
                         <Route path="/dialogs/*" element={<DialogsContainer/>}/>
-                        <Route path="/profile" element={<ProfileContainer/>}/>
+                        <Route path="/profile/*" element={<ProfileContainer/>}/>
                         <Route path="/users" element={<UsersContainer/>}/>
                         {/*<Route path="/news" element={<News/>}/>
                     <Route path="/music" element={<Music/>}/>

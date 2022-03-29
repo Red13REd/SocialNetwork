@@ -4,6 +4,12 @@ import {connect} from "react-redux";
 import {profileType, setUserProfile, UserprofileType} from "../../redax/profileReducer";
 import Profile from "./Profile";
 import {AppStateType} from "../../redax/redaxStore";
+import {useMatch} from "react-router-dom";
+
+type PathParamsType = {
+    match: any
+}
+
 
 
 type mapStateToProps = {
@@ -16,12 +22,14 @@ type mapDispatchToPropsType = {
 
 
 export type ProfileType = mapStateToProps & mapDispatchToPropsType
+export type ProfileContainerType = mapStateToProps & mapDispatchToPropsType & PathParamsType
 
 
-class ProfileContainer extends React.Component<ProfileType, ProfileType> {
+class ProfileContainer extends React.Component<ProfileContainerType , ProfileContainerType > {
 
-    componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/2`).then(response => {
+    componentDidMount( ) {
+        let userId = this.props.match ? this.props.match.params.userId : 2;
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`).then(response => {
             this.props.setUserProfile(response.data)
         })
     }
@@ -36,8 +44,13 @@ class ProfileContainer extends React.Component<ProfileType, ProfileType> {
     }
 }
 
-let mapStateToProps = (state: AppStateType) => ({
+const ProfileURLMatch = (props: ProfileType) => {
+    const match = useMatch('/profile/:userId/');
+    return <ProfileContainer {...props} match={match}/>;
+}
+
+let mapStateToProps = (state: AppStateType): mapStateToProps => ({
     state: state.profile
 })
 
-export default connect(mapStateToProps, {setUserProfile})(ProfileContainer)
+export default connect(mapStateToProps, {setUserProfile})(ProfileURLMatch)
