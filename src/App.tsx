@@ -1,7 +1,5 @@
 import classes from './App.module.css';
-import Header from "./components/Header/Header";
 import Nav from "./components/Navbar/Navbar";
-import Profile from "./components/Profile/Profile";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import React from "react";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";

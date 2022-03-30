@@ -4,6 +4,7 @@ import styles from "./users.module.css";
 import userPhoto from "../../assets/img/userAvatar.png";
 import {usersType} from "../../redax/usersReducer";
 import {NavLink} from "react-router-dom";
+import axios from "axios";
 
 export type UsersType = {
     users: Array<usersType>
@@ -24,6 +25,35 @@ export const Users = (props: UsersType) => {
         pages.push(i);
     }
 
+    const onClickHandlerToggleFollow = (id: string, followed: boolean) => {
+
+        followed ? axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${id}`,
+                {
+                    withCredentials: true,
+                    headers: {
+                        "API-KEY": "4b1b8a71-d75f-4f42-8e70-f2ca2c6751b4"
+                    }
+                })
+                .then(response => {
+                    console.log(response.data)
+                    if (response.data.resultCode === 0) {
+                        props.toggleFollow(id)
+                    }
+                })
+            : axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {},
+                {
+                    withCredentials: true,
+                    headers: {
+                        "API-KEY": "4b1b8a71-d75f-4f42-8e70-f2ca2c6751b4"
+                    }
+                })
+                .then(response => {
+                    console.log(response.data)
+                    if (response.data.resultCode === 0) {
+                        props.toggleFollow(id)
+                    }
+                })
+    }
 
     return (
         <div>
@@ -48,7 +78,7 @@ export const Users = (props: UsersType) => {
                                 </div>
                                 <div>
                                     <button
-                                        onClick={() => props.toggleFollow(m.id)}>{m.followed ? "Follow" : "Unfollow"}</button>
+                                        onClick={() => onClickHandlerToggleFollow(m.id, m.followed)}>{m.followed ? "Follow" : "Unfollow"}</button>
                                 </div>
                             </span>
 
