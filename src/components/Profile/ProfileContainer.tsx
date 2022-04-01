@@ -5,11 +5,11 @@ import {profileType, setUserProfile, UserprofileType} from "../../redax/profileR
 import Profile from "./Profile";
 import {AppStateType} from "../../redax/redaxStore";
 import {useMatch} from "react-router-dom";
+import {profileApi} from "../../api/api";
 
 type PathParamsType = {
     match: any
 }
-
 
 
 type mapStateToProps = {
@@ -25,13 +25,14 @@ export type ProfileType = mapStateToProps & mapDispatchToPropsType
 export type ProfileContainerType = mapStateToProps & mapDispatchToPropsType & PathParamsType
 
 
-class ProfileContainer extends React.Component<ProfileContainerType , ProfileContainerType > {
+class ProfileContainer extends React.Component<ProfileContainerType, ProfileContainerType> {
 
-    componentDidMount( ) {
+    componentDidMount() {
         let userId = this.props.match ? this.props.match.params.userId : 2;
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`).then(response => {
-            this.props.setUserProfile(response.data)
-        })
+        profileApi.getProfile(userId)
+            .then(response => {
+                this.props.setUserProfile(response.data)
+            })
     }
 
 

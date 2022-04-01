@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {InitialStateType, setAuthUserData, userDataType} from "../../redax/authReducer";
 import {profileType, setUserProfile} from "../../redax/profileReducer";
 import {AppStateType} from "../../redax/redaxStore";
+import {authApi, profileApi} from "../../api/api";
 
 type mapStateToProps = {
     state: InitialStateType
@@ -22,13 +23,14 @@ class HeaderComponent extends React.Component<HeaderComponentType, HeaderCompone
 
 
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {withCredentials: true}).then(response => {
-            if (response.data.resultCode === 0) {
-                this.props.setAuthUserData(response.data.data)
-                return response.data.data.id
-            }
-        }).then(response => {
-            return axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${response}`)
+        authApi.authMe()
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    this.props.setAuthUserData(response.data.data)
+                    return response.data.data.id
+                }
+            }).then(id => {
+            return profileApi.getProfile(id)
         }).then(response => {
                 this.props.setUserProfile(response.data)
             }
