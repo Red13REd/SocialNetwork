@@ -4,13 +4,11 @@ import {
     setCurrentPage,
     setTotalUsersCount,
     setUsers,
-    toggleFollow, toggleIsFetching,
+    toggleFollow, toggleFollowingInProgress, toggleIsFetching,
     usersType
 } from "../../redax/usersReducer";
-import {Dispatch} from "redux";
 import {AppStateType} from "../../redax/redaxStore";
 import React from "react";
-import axios from "axios";
 import {Users} from "./Users";
 import {Preloader} from "../common/preloader/preloader";
 import {usersApi} from "../../api/api";
@@ -25,6 +23,7 @@ type mapDispatchToPropsType = {
     setCurrentPage: (number: number) => void
     setTotalUsersCount: (number: number) => void
     toggleIsFetching: (isFetching: boolean) => void
+    toggleFollowingInProgress: (isFetching: boolean, id: string) => void
 }
 
 export type UsersType = mapStateToProps & mapDispatchToPropsType
@@ -61,6 +60,8 @@ export class UsersApi extends React.Component<UsersType, UsersType> {
                 totalUsersCount={this.props.state.totalUsersCount}
                 onPageChanged={this.onPageChanged}
                 toggleFollow={this.props.toggleFollow}
+                followingInProgress={this.props.state.followingInProgress}
+                toggleFollowingInProgress={this.props.toggleFollowingInProgress}
             />
         </>
 
@@ -79,4 +80,5 @@ export const UsersContainer = connect(mapStateToProps, {
     setCurrentPage,
     setTotalUsersCount,
     toggleIsFetching,
+    toggleFollowingInProgress,
 })(UsersApi);

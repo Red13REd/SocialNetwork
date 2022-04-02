@@ -14,6 +14,8 @@ export type UsersType = {
     currentPage: number
     onPageChanged: (number: number) => void
     toggleFollow: (number: string) => void
+    followingInProgress: []
+    toggleFollowingInProgress: (isFetching: boolean, id: string) => void
 }
 
 export const Users = (props: UsersType) => {
@@ -27,13 +29,14 @@ export const Users = (props: UsersType) => {
     }
 
     const onClickHandlerToggleFollow = (id: string, followed: boolean) => {
-
+        props.toggleFollowingInProgress(true, id)
         followed ? followApi.followDelete(id)
                 .then(response => {
                     console.log(response.data)
                     if (response.data.resultCode === 0) {
                         props.toggleFollow(id)
                     }
+                    props.toggleFollowingInProgress(false, id)
                 })
             : followApi.followPost(id)
                 .then(response => {
@@ -41,6 +44,7 @@ export const Users = (props: UsersType) => {
                     if (response.data.resultCode === 0) {
                         props.toggleFollow(id)
                     }
+                    props.toggleFollowingInProgress(false, id)
                 })
     }
 
@@ -66,8 +70,8 @@ export const Users = (props: UsersType) => {
                                      </NavLink>
                                 </div>
                                 <div>
-                                    <button
-                                        onClick={() => onClickHandlerToggleFollow(m.id, m.followed)}>{m.followed ? "Follow" : "Unfollow"}</button>
+                                    <button disabled={props.followingInProgress.some(id => id === m.id)}
+                                            onClick={() => onClickHandlerToggleFollow(m.id, m.followed)}>{m.followed ? "Follow" : "Unfollow"}</button>
                                 </div>
                             </span>
 
