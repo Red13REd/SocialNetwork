@@ -1,4 +1,6 @@
 import {ActionsType, PostDataType} from "./state";
+import {profileApi} from "../api/api";
+import {Dispatch} from "redux";
 
 export type photosType = {
     small: string
@@ -65,10 +67,14 @@ export const profileReducer = (state = initialState, action: ProfileActionsType)
 };
 
 export const addPostActionCreator = () => ({type: 'ADD-POST'} as const)
-
 export const updateNewPostTextActionCreator = (text: string) => ({
     type: 'UPDATED-NEW-POST-TEXT',
     newText: text
 } as const)
-
 export const setUserProfile = (profile: profileType) => ({type: 'SET-USER-PROFILE', profile} as const)
+
+export const getProfile = (userId: string) => (dispatch: Dispatch) => {
+    profileApi.getProfile(userId).then(response => {
+        dispatch(setUserProfile(response.data))
+    })
+}

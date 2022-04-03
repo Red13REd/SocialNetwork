@@ -4,8 +4,6 @@ import styles from "./users.module.css";
 import userPhoto from "../../assets/img/userAvatar.png";
 import {usersType} from "../../redax/usersReducer";
 import {NavLink} from "react-router-dom";
-import axios from "axios";
-import {followApi} from "../../api/api";
 
 export type UsersType = {
     users: Array<usersType>
@@ -13,9 +11,8 @@ export type UsersType = {
     pageSize: number
     currentPage: number
     onPageChanged: (number: number) => void
-    toggleFollow: (number: string) => void
     followingInProgress: []
-    toggleFollowingInProgress: (isFetching: boolean, id: string) => void
+    follow: (id: string, followed: boolean) => void
 }
 
 export const Users = (props: UsersType) => {
@@ -29,23 +26,7 @@ export const Users = (props: UsersType) => {
     }
 
     const onClickHandlerToggleFollow = (id: string, followed: boolean) => {
-        props.toggleFollowingInProgress(true, id)
-        followed ? followApi.followDelete(id)
-                .then(response => {
-                    console.log(response.data)
-                    if (response.data.resultCode === 0) {
-                        props.toggleFollow(id)
-                    }
-                    props.toggleFollowingInProgress(false, id)
-                })
-            : followApi.followPost(id)
-                .then(response => {
-                    console.log(response.data)
-                    if (response.data.resultCode === 0) {
-                        props.toggleFollow(id)
-                    }
-                    props.toggleFollowingInProgress(false, id)
-                })
+        props.follow(id, followed)
     }
 
     return (

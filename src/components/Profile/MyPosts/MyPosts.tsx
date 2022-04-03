@@ -1,7 +1,6 @@
 import classes from './MyPosts.module.css';
 import Post from "./Post/Post";
 import React, {ChangeEvent} from "react";
-import {MessagesPageType, ProfileType,} from "../../../redax/state";
 import {MyPostsType} from "./MyPostsСontainer";
 
 
