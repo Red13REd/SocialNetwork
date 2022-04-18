@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import {getProfile, profileType, setUserProfile, UserprofileType} from "../../redax/profileReducer";
 import Profile from "./Profile";
 import {AppStateType} from "../../redax/redaxStore";
-import {useMatch} from "react-router-dom";
-import {profileApi} from "../../api/api";
+import {Navigate, useMatch} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/AuthRedirect";
 
 type PathParamsType = {
     match: any
@@ -31,7 +31,6 @@ class ProfileContainer extends React.Component<ProfileContainerType, ProfileCont
         this.props.getProfile(userId)
     }
 
-
     render() {
         return (
             <div>
@@ -41,13 +40,16 @@ class ProfileContainer extends React.Component<ProfileContainerType, ProfileCont
     }
 }
 
-const ProfileURLMatch = (props: ProfileType) => {
+const ProfileURLMatch = (props:ProfileType) => {
     const match = useMatch('/profile/:userId/');
-    return <ProfileContainer {...props} match={match}/>;
+    // @ts-ignore
+    return <AuthRedirectComponent {...props} match={match}/>;
 }
 
+let AuthRedirectComponent = withAuthRedirect(ProfileContainer);
+
 let mapStateToProps = (state: AppStateType): mapStateToProps => ({
-    state: state.profile
+    state: state.profile,
 })
 
-export default connect(mapStateToProps, {setUserProfile, getProfile})(ProfileURLMatch)
+export default connect(mapStateToProps, {setUserProfile, getProfile,})(ProfileURLMatch)

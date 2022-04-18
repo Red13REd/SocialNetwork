@@ -3,30 +3,31 @@ import {MessagesPageType} from "../../redax/state";
 import {addMessageActionCreator, updateNewMessagesTextActionCreator} from "../../redax/dialogsReducer";
 import {Dialogs} from "./Dialogs";
 import {AppStateType} from "../../redax/redaxStore";
-import {Dispatch} from "redux";
+import {compose, Dispatch} from "redux";
 import {connect} from "react-redux";
+import {withAuthRedirect} from "../../hoc/AuthRedirect";
 
 
 type mapStateToProps = {
-    state:MessagesPageType
+    state: MessagesPageType,
 }
 
 type mapDispatchToPropsType = {
-    updateNewMessage:(text:string)=>void
-    addMassage:()=>void
+    updateNewMessage: (text: string) => void
+    addMassage: () => void
 }
 
-export type DialodsType = mapStateToProps & mapDispatchToPropsType
+export type DialogsType = mapStateToProps & mapDispatchToPropsType
 
-let mapStateToProps = (state:AppStateType):mapStateToProps => {
+let mapStateToProps = (state: AppStateType): mapStateToProps => {
     return {
         state: state.messagesPage,
     }
 }
 
-let mapDispatchToProps = (dispatch:Dispatch):mapDispatchToPropsType => {
+let mapDispatchToProps = (dispatch: Dispatch): mapDispatchToPropsType => {
     return {
-        updateNewMessage: (text:string) => {
+        updateNewMessage: (text: string) => {
             dispatch(updateNewMessagesTextActionCreator(text))
         },
         addMassage: () => {
@@ -35,5 +36,6 @@ let mapDispatchToProps = (dispatch:Dispatch):mapDispatchToPropsType => {
     }
 }
 
-
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect)(Dialogs)
